@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - IDS Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='manager_dashboard.css') }}">
+</head>
+<body class="dashboard-body d-flex justify-content-center align-items-center">
+    <div class="dashboard-container p-5 rounded shadow-lg">
+        <h2 class="dashboard-title text-center mb-4">Project Manager Dashboard - Monitoring</h2>
+
+        {% if service_requests %}
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered text-center dashboard-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Organization</th>
+                        <th>Customer</th>
+                        <th>Role</th>
+                        <th>Service</th>
+                        <th>Problem</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in service_requests %}
+                    <tr class="fade-in-row">
+                        <td>{{ request.org_name }}</td>
+                        <td>{{ request.cust_name }}</td>
+                        <td>{{ request.role }}</td>
+                        <td>{{ request.service_needed }}</td>
+                        <td>{{ request.problem_desc }}</td>
+                        <td>
+                            <span class="status-badge {{ 'status-accepted' if request.status == 'Accepted' else 'status-pending' if request.status == 'Pending' else 'status-rejected' }}">
+                                {{ request.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-center text-muted">No Service Requests Available.</p>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-outline-danger btn-animated">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
