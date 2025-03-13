@@ -1,0 +1,21 @@
+import speech_recognition as sr
+
+# Initialize the recognizer
+listener = sr.Recognizer()
+
+# Adjust for ambient noise
+with sr.Microphone() as source:
+    print("Adjusting for ambient noise... Please wait.")
+    listener.adjust_for_ambient_noise(source)
+    print("Listening....")
+    
+    # Listen for the user's voice
+    try:
+        voice = listener.listen(source)
+        # Recognize the speech using Google Web Speech API
+        command = listener.recognize_google(voice)
+        print("You said:", command)
+    except sr.UnknownValueError:
+        print("Sorry, I could not understand the audio.")
+    except sr.RequestError:
+        print("Sorry, there was an issue with the request to the API.")
